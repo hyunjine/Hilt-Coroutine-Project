@@ -12,12 +12,31 @@ class MainDiaryListAdapter: ListAdapter<DiaryDTO, MainDiaryListAdapter.MainDiary
     private lateinit var listener: () -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainDiaryListViewHolder =
-        MainDiaryListViewHolder(
-            ItemMainDiaryListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+        ItemMainDiaryListBinding.inflate(LayoutInflater.from(parent.context), parent, false).let {
+            onClickLayout(it)
+            MainDiaryListViewHolder(it)
+        }
 
+    private fun onClickLayout(binding: ItemMainDiaryListBinding) = binding.run {
+        layout.setOnClickListener {
+            if (::listener.isInitialized) listener()
+        }
+    }
     override fun onBindViewHolder(holder: MainDiaryListViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(getItem(position))
+    }
+
+    fun setOnItemClickListener(listener: () -> Unit) {
+        this.listener = listener
+    }
+
+    class MainDiaryListViewHolder(private val binding: ItemMainDiaryListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(diary: DiaryDTO) {
+            binding.run {
+
+            }
+        }
     }
 
     class MainDiaryListDiff : DiffUtil.ItemCallback<DiaryDTO>() {
@@ -26,11 +45,5 @@ class MainDiaryListAdapter: ListAdapter<DiaryDTO, MainDiaryListAdapter.MainDiary
 
         override fun areContentsTheSame(oldItem: DiaryDTO, newItem: DiaryDTO) =
             oldItem == newItem
-    }
-
-    inner class MainDiaryListViewHolder(private val binding: ItemMainDiaryListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-
-        }
     }
 }
