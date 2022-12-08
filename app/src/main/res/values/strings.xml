@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Hilt-Compose-Project</string>
+    <string name="main_title">다이어리 기록</string>
+</resources>
