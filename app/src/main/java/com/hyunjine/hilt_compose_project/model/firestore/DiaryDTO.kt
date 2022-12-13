@@ -7,5 +7,6 @@ data class DiaryDTO(
     var title: String = DEFAULT_STRING,
     var date: String = DEFAULT_STRING,
     var dateTimestamp: Long = DEFAULT_LONG,
-    var content: String = DEFAULT_STRING
+    var content: String = DEFAULT_STRING,
+    var tag: String = DEFAULT_STRING,
 )

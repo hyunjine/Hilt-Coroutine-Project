@@ -1,19 +1,27 @@
 package com.hyunjine.hilt_compose_project.common.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
 
-abstract class BaseActivity<T: ViewDataBinding>: AppCompatActivity() {
-    protected lateinit var binding: T
-    abstract val layoutId: Int
+abstract class BaseActivity<T : ViewBinding>(val bindingFactory: (LayoutInflater) -> T) :
+    AppCompatActivity() {
+
+    private var _binding: T? = null
+    val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, layoutId)
+        _binding = bindingFactory(layoutInflater)
+        setContentView(binding.root)
         initView()
     }
 
     abstract fun initView()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

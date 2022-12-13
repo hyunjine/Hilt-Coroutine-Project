@@ -34,7 +34,9 @@ class MainDiaryListAdapter: ListAdapter<DiaryDTO, MainDiaryListAdapter.MainDiary
         RecyclerView.ViewHolder(binding.root) {
         fun bind(diary: DiaryDTO) {
             binding.run {
-
+                tvTitle.text = diary.title
+                tvDate.text = diary.date
+                tvTag.text = diary.tag
             }
         }
     }
